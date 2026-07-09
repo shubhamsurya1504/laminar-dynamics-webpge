@@ -49,7 +49,6 @@ export default async function Home() {
   const svc = (data.services ?? {}) as Record<string, unknown>;
   const deepTech = (data.deepTech ?? {}) as Record<string, unknown>;
   const whyUs = (data.whyUs ?? {}) as Record<string, unknown>;
-  const testimonials = (data.testimonials ?? {}) as Record<string, unknown>;
   const contact = (data.contact ?? {}) as Record<string, unknown>;
 
   const domains = arr<{ label: string }>(hero.domains, d.hero.domains);
@@ -64,13 +63,9 @@ export default async function Home() {
     d.deepTech.pillars,
   );
   const whyItems = arr<{ title: string; body: string }>(whyUs.items, d.whyUs.items);
-  const testimonialItems = arr<{ text: string }>(
-    testimonials.items,
-    d.testimonials.items,
-  );
-  const forSaleItems = arr<{ title: string; body: string }>(
-    testimonials.forSaleItems,
-    d.testimonials.forSaleItems,
+  const ourWorkLinks = arr<{ label: string; href: string }>(
+    whyUs.ourWorkLinks,
+    d.whyUs.ourWorkLinks,
   );
 
   const contactFormUrl = process.env.NEXT_PUBLIC_CONTACT_FORM_URL?.trim();
@@ -289,55 +284,26 @@ export default async function Home() {
                 </Reveal>
               ))}
             </div>
-          </div>
-        </section>
 
-        {/* TESTIMONIALS & FOR SALE */}
-        <section
-          id="testimonials"
-          className="relative isolate overflow-hidden bg-navy py-24 text-white lg:py-32"
-        >
-          <div className="grid-texture absolute inset-0 opacity-60" />
-          <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
-            <Reveal>
-              <SectionLabel>
-                {txt(testimonials.label, d.testimonials.label)}
-              </SectionLabel>
-              <h2 className="mt-5 font-display text-4xl font-bold sm:text-5xl">
-                {txt(testimonials.heading, d.testimonials.heading)}
-              </h2>
-            </Reveal>
-
-            <div className="mt-14 grid gap-6 sm:grid-cols-2">
-              {testimonialItems.map((t, i) => (
-                <Reveal
-                  key={i}
-                  delay={i * 80}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-7 italic text-white/80"
-                >
-                  &ldquo;{t.text}&rdquo;
-                </Reveal>
-              ))}
-            </div>
-
-            <Reveal className="mt-20">
+            <Reveal delay={100} className="mt-16">
               <h3 className="font-display text-2xl font-semibold text-accent">
-                {txt(testimonials.forSaleLabel, d.testimonials.forSaleLabel)}
+                {txt(whyUs.ourWorkLabel, d.whyUs.ourWorkLabel)}
               </h3>
+              <ul className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-3">
+                {ourWorkLinks.map((link, i) => (
+                  <li key={i}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-brand-light transition-colors hover:text-white"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </Reveal>
-
-            <div className="mt-8 grid gap-6 md:grid-cols-2">
-              {forSaleItems.map((item, i) => (
-                <Reveal
-                  key={i}
-                  delay={i * 80}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-7"
-                >
-                  <h4 className="font-display text-lg font-semibold">{item.title}</h4>
-                  <p className="mt-2 text-sm text-white/70">{item.body}</p>
-                </Reveal>
-              ))}
-            </div>
           </div>
         </section>
 

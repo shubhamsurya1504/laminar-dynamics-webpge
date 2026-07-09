@@ -142,21 +142,11 @@ export const DEFAULTS = {
         body: "Lean structure with deep & cross-functional expertise to deliver rapidly complex prototypes and unique solutions along with lower costs.",
       },
     ],
-  },
-
-  testimonials: {
-    label: "Testimonials and for sale",
-    heading: "Testimonials",
-    items: [
-      { text: "Item 1" },
-      { text: "Item 2" },
-      { text: "Item 3" },
-      { text: "Item 4" },
-    ],
-    forSaleLabel: "For Sale",
-    forSaleItems: [
-      { title: "Platform listing 1", body: "Contact us for specifications and availability." },
-      { title: "Platform listing 2", body: "Contact us for specifications and availability." },
+    ourWorkLabel: "Our work",
+    ourWorkLinks: [
+      { label: "myrahulroy.blogspot.com", href: "https://myrahulroy.blogspot.com/" },
+      { label: "YouTube — featured flight", href: "https://www.youtube.com/watch?v=pVT5TLOxDik" },
+      { label: "YouTube channel", href: "https://www.youtube.com/@RahulRoy-ds7qt" },
     ],
   },
 
@@ -166,7 +156,7 @@ export const DEFAULTS = {
     headingHighlight: "extraordinary.",
     description:
       "Open to collaborations, prototyping, R&D partnerships, and consulting engagements. If you're working on something that flies — or should — get in touch. We move fast, build from scratch, and care about getting it right.",
-    email: "oy.laminardynamics@gmail.com",
+    email: "roy.laminardynamics@gmail.com",
     webLabel: "myrahulroy.blogspot.com",
     webHref: "https://myrahulroy.blogspot.com",
     domainsLine: "Aerial · Surface · Underwater · X-Rocketry",
