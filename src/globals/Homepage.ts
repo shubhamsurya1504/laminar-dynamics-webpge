@@ -14,8 +14,8 @@ const textList = (
   fields: [{ name: "text", type: (textarea ? "textarea" : "text") as "text" }],
 });
 
-const image = (label = "Image") => ({
-  name: "image",
+const image = (label = "Image", name = "image") => ({
+  name,
   type: "upload" as const,
   relationTo: "media" as const,
   label: `${label} (leave empty to keep the current one)`,
@@ -44,6 +44,7 @@ export const Homepage: GlobalConfig = {
                 { name: "primaryCtaLabel", type: "text", defaultValue: DEFAULTS.hero.primaryCtaLabel },
                 { name: "primaryCtaHref", type: "text", defaultValue: DEFAULTS.hero.primaryCtaHref },
                 image("Background image"),
+                image("Featured product image (Hummingbird)", "featuredImage"),
                 {
                   name: "domains",
                   type: "array",

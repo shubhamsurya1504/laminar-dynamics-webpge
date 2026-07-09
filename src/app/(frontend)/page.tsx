@@ -46,7 +46,6 @@ export default async function Home() {
 
   const hero = (data.hero ?? {}) as Record<string, unknown>;
   const about = (data.about ?? {}) as Record<string, unknown>;
-  const work = (data.work ?? {}) as Record<string, unknown>;
   const svc = (data.services ?? {}) as Record<string, unknown>;
   const deepTech = (data.deepTech ?? {}) as Record<string, unknown>;
   const whyUs = (data.whyUs ?? {}) as Record<string, unknown>;
@@ -83,73 +82,86 @@ export default async function Home() {
       <main id="top" className="flex-1">
         {/* HERO */}
         <section className="relative isolate flex min-h-screen items-center overflow-hidden bg-navy">
-          <Image
-            src={mediaUrl(hero.image, d.hero.image)}
-            alt="Laminar Dynamics UAV in flight"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-30"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/90 to-navy/50" />
           <div className="grid-texture absolute inset-0" />
 
           <div className="relative mx-auto w-full max-w-7xl px-5 pt-28 pb-20 lg:px-8">
-            <Reveal>
-              <h1 className="max-w-4xl font-display text-5xl font-bold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
-                {txt(hero.titleLead, d.hero.titleLead)}{" "}
-                <span className="text-accent">
-                  {txt(hero.titleHighlight, d.hero.titleHighlight)}
-                </span>
-              </h1>
-            </Reveal>
-            <Reveal delay={150}>
-              <a
-                href={txt(hero.primaryCtaHref, d.hero.primaryCtaHref)}
-                className="mt-9 inline-flex items-center gap-2 text-lg font-semibold text-brand-light transition-colors hover:text-white"
-              >
-                {txt(hero.primaryCtaLabel, d.hero.primaryCtaLabel)}
-                <span aria-hidden="true">→</span>
-              </a>
-            </Reveal>
+            <div>
+              <div className="grid items-center gap-12 px-6 py-12 lg:grid-cols-[1fr_minmax(0,22rem)] lg:gap-12 lg:px-10 lg:py-14 xl:grid-cols-[1fr_minmax(0,26rem)]">
+                <div className="min-w-0">
+                  <Reveal>
+                    <h1 className="max-w-4xl font-display text-5xl font-bold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
+                      {txt(hero.titleLead, d.hero.titleLead)}{" "}
+                      <span className="text-accent">
+                        {txt(hero.titleHighlight, d.hero.titleHighlight)}
+                      </span>
+                    </h1>
+                  </Reveal>
+                  <Reveal delay={150}>
+                    <a
+                      href={txt(hero.primaryCtaHref, d.hero.primaryCtaHref)}
+                      className="mt-9 inline-flex items-center gap-2 text-lg font-semibold text-brand-light transition-colors hover:text-white"
+                    >
+                      {txt(hero.primaryCtaLabel, d.hero.primaryCtaLabel)}
+                      <span aria-hidden="true">→</span>
+                    </a>
+                  </Reveal>
 
-            <Reveal delay={250}>
-              <div className="mt-14 flex flex-wrap items-center gap-x-3 gap-y-3">
-                {domains.map((item, i) => (
-                  <span key={`${item.label}-${i}`} className="flex items-center gap-3">
-                    {i > 0 && <span className="text-brand-light/50">·</span>}
-                    <span className="text-sm font-medium uppercase tracking-widest text-white/70">
-                      {item.label}
-                    </span>
-                  </span>
-                ))}
-              </div>
-            </Reveal>
+                  <Reveal delay={250}>
+                    <div className="mt-14 flex flex-wrap items-center gap-x-3 gap-y-3">
+                      {domains.map((item, i) => (
+                        <span key={`${item.label}-${i}`} className="flex items-center gap-3">
+                          {i > 0 && <span className="text-brand-light/50">·</span>}
+                          <span className="text-sm font-medium uppercase tracking-widest text-white/70">
+                            {item.label}
+                          </span>
+                        </span>
+                      ))}
+                    </div>
+                  </Reveal>
 
-            <Reveal delay={350}>
-              <div className="mt-16 grid gap-6 sm:grid-cols-3">
-                {stats.map((stat, i) => (
-                  <div
-                    key={i}
-                    className="rounded-2xl border border-white/10 bg-white/5 px-6 py-5 backdrop-blur"
-                  >
-                    <p className="font-display text-4xl font-bold text-accent">
-                      {stat.value}
-                    </p>
-                    <p className="mt-1 text-sm font-medium uppercase tracking-wider text-white/60">
-                      {stat.label}
-                    </p>
+                  <Reveal delay={350}>
+                    <div className="mt-16 grid gap-6 sm:grid-cols-3">
+                      {stats.map((stat, i) => (
+                        <div
+                          key={i}
+                          className="rounded-2xl border border-white/10 bg-white/5 px-6 py-5 backdrop-blur"
+                        >
+                          <p className="font-display text-4xl font-bold text-accent">
+                            {stat.value}
+                          </p>
+                          <p className="mt-1 text-sm font-medium uppercase tracking-wider text-white/60">
+                            {stat.label}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </Reveal>
+                </div>
+
+                <Reveal delay={200} className="min-w-0">
+                  <div className="relative">
+                    <div className="relative overflow-hidden border border-white/90 bg-white shadow-[0_20px_48px_rgba(0,0,0,0.45)]">
+                      <Image
+                        src={mediaUrl(hero.featuredImage, d.hero.featuredImage)}
+                        alt="The Hummingbird — Autonomous VTOL UAV prototype by Laminar Aeroworks"
+                        width={960}
+                        height={540}
+                        priority
+                        sizes="(max-width: 1024px) 90vw, 26rem"
+                        className="h-auto w-full object-cover"
+                      />
+                    </div>
                   </div>
-                ))}
+                </Reveal>
               </div>
-            </Reveal>
+            </div>
           </div>
         </section>
 
         {/* ABOUT */}
         <section
           id="about"
-          className="relative isolate overflow-hidden bg-navy-light py-24 text-white lg:py-32"
+          className="relative isolate overflow-hidden bg-navy py-24 text-white lg:py-32"
         >
           <div className="grid-texture absolute inset-0 opacity-60" />
           <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
@@ -173,26 +185,10 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* WORK */}
-        <section
-          id="work"
-          className="relative isolate overflow-hidden bg-navy py-24 text-white lg:py-32"
-        >
-          <div className="grid-texture absolute inset-0 opacity-60" />
-          <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
-            <Reveal className="text-center">
-              <SectionLabel>{txt(work.label, d.work.label)}</SectionLabel>
-              <p className="mt-8 font-display text-4xl font-semibold text-white/80 sm:text-5xl">
-                {txt(work.message, d.work.message)}
-              </p>
-            </Reveal>
-          </div>
-        </section>
-
         {/* SERVICES */}
         <section
           id="services"
-          className="relative isolate overflow-hidden bg-navy-light py-24 text-white lg:py-32"
+          className="relative isolate overflow-hidden bg-navy py-24 text-white lg:py-32"
         >
           <div className="grid-texture absolute inset-0 opacity-60" />
           <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
@@ -299,7 +295,7 @@ export default async function Home() {
         {/* TESTIMONIALS & FOR SALE */}
         <section
           id="testimonials"
-          className="relative isolate overflow-hidden bg-navy-light py-24 text-white lg:py-32"
+          className="relative isolate overflow-hidden bg-navy py-24 text-white lg:py-32"
         >
           <div className="grid-texture absolute inset-0 opacity-60" />
           <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
@@ -428,7 +424,7 @@ export default async function Home() {
         </section>
       </main>
 
-      <footer className="bg-[#070d1a] py-10 text-white/60">
+      <footer className="bg-navy py-10 text-white/60">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 sm:flex-row lg:px-8">
           <span className="font-display text-lg font-bold tracking-wide text-white">
             <span className="text-brand-light">LAMINAR</span> DYNAMICS

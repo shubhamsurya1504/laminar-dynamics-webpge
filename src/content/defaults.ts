@@ -7,8 +7,8 @@ export const DEFAULTS = {
     titleLead: "Let's build something",
     titleHighlight: "extraordinary",
     primaryCtaLabel: "See our work",
-    primaryCtaHref: "#work",
-    image: "/hero-bg.jpg",
+    primaryCtaHref: "#services",
+    featuredImage: "/hummingbird.jpg",
     domains: [
       { label: "Aerial" },
       { label: "Surface" },

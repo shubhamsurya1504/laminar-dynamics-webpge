@@ -46,6 +46,10 @@ export default function RootLayout({
       className={`${inter.variable} ${rajdhani.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-white text-ink">
+        <div
+          className="pointer-events-none fixed top-0 right-0 bottom-0 z-40 w-14 bg-gold"
+          aria-hidden
+        />
         {children}
       </body>
     </html>

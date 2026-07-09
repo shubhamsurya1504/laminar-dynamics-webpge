@@ -2,11 +2,12 @@
 
 @theme {
   /* Brand palette derived from the Laminar Dynamics deck */
-  --color-navy: #0b1426;
-  --color-navy-light: #16223d;
+  --color-navy: #2e4a6d;
+  --color-navy-light: #3a5a82;
   --color-brand: #2f5fc4;
   --color-brand-light: #5b9bd5;
   --color-accent: #ed7d31;
+  --color-gold: #f5c518;
   --color-ink: #15203a;
   --color-mist: #f4f6f9;
 
