@@ -18,6 +18,7 @@
 :root {
   --background: #ffffff;
   --foreground: #15203a;
+  --gold-rail: 3.5rem; /* matches w-14 accent rail */
 }
 
 html {

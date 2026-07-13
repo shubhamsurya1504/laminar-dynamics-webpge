@@ -82,11 +82,11 @@ export default async function Home() {
           <div className="grid-texture absolute inset-0" />
 
           <div className="relative mx-auto w-full max-w-7xl px-5 pt-28 pb-8 lg:px-8">
-            <div className="w-full">
-              <div className="grid items-center gap-12 px-6 py-12 lg:grid-cols-[1fr_minmax(0,22rem)] lg:gap-12 lg:px-10 lg:py-14 xl:grid-cols-[1fr_minmax(0,26rem)]">
+            <div className="w-full min-w-0">
+              <div className="grid items-center gap-12 px-0 py-12 sm:px-6 lg:grid-cols-[1fr_minmax(0,22rem)] lg:gap-12 lg:px-10 lg:py-14 xl:grid-cols-[1fr_minmax(0,26rem)]">
                 <div className="min-w-0">
                   <Reveal>
-                    <h1 className="max-w-4xl font-display text-5xl font-bold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
+                    <h1 className="max-w-4xl break-words font-display text-4xl font-bold leading-[1.1] text-white sm:text-5xl md:text-6xl lg:text-7xl">
                       {txt(hero.titleLead, d.hero.titleLead)}{" "}
                       <span className="text-accent">
                         {txt(hero.titleHighlight, d.hero.titleHighlight)}
@@ -104,11 +104,11 @@ export default async function Home() {
                   </Reveal>
 
                   <Reveal delay={250}>
-                    <div className="mt-16 grid gap-6 sm:grid-cols-3">
+                    <div className="mt-16 grid min-w-0 gap-6 sm:grid-cols-3">
                       {stats.map((stat, i) => (
                         <div
                           key={i}
-                          className="rounded-2xl border border-white/10 bg-white/5 px-6 py-5 backdrop-blur"
+                          className="min-w-0 rounded-2xl border border-white/10 bg-white/5 px-5 py-5 backdrop-blur sm:px-6"
                         >
                           <p className="font-display text-4xl font-bold text-accent">
                             {stat.value}
@@ -154,7 +154,7 @@ export default async function Home() {
             <div className="grid w-full items-center gap-14 lg:grid-cols-2 lg:gap-20">
               <Reveal>
                 <SectionLabel>{txt(about.label, d.about.label)}</SectionLabel>
-                <h2 className="mt-5 font-display text-4xl font-bold sm:text-5xl">
+                <h2 className="mt-5 break-words font-display text-3xl font-bold sm:text-5xl">
                   {txt(about.heading, d.about.heading)}
                 </h2>
                 <p className="mt-6 text-lg leading-relaxed text-white/75">
@@ -182,7 +182,7 @@ export default async function Home() {
           <div className="relative mx-auto w-full max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
             <Reveal className="max-w-3xl">
               <SectionLabel>{txt(svc.label, d.services.label)}</SectionLabel>
-              <h2 className="mt-5 font-display text-4xl font-bold sm:text-5xl">
+              <h2 className="mt-5 break-words font-display text-3xl font-bold sm:text-5xl">
                 {txt(svc.heading, d.services.heading)}
               </h2>
             </Reveal>
@@ -214,7 +214,7 @@ export default async function Home() {
 
             <Reveal className="mt-24 max-w-3xl">
               <SectionLabel>{txt(deepTech.label, d.deepTech.label)}</SectionLabel>
-              <h2 className="mt-5 font-display text-4xl font-bold sm:text-5xl">
+              <h2 className="mt-5 break-words font-display text-3xl font-bold sm:text-5xl">
                 {txt(deepTech.heading, d.deepTech.heading)}
               </h2>
             </Reveal>
@@ -283,7 +283,7 @@ export default async function Home() {
             </div>
 
             <Reveal delay={100} className="mt-20">
-              <h3 className="font-display text-3xl font-bold text-accent sm:text-4xl">
+              <h3 className="break-words font-display text-2xl font-bold text-accent sm:text-4xl">
                 {txt(whyUs.ourWorkLabel, d.whyUs.ourWorkLabel)}
               </h3>
               <ul className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-4">
@@ -324,16 +324,16 @@ export default async function Home() {
           className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
         >
           <div className="grid-texture absolute inset-0" />
-          <div className="relative mx-auto w-full max-w-4xl px-5 py-24 text-center lg:px-8 lg:py-32">
+          <div className="relative mx-auto w-full min-w-0 max-w-4xl px-5 py-24 text-center lg:px-8 lg:py-32">
             <Reveal>
               <SectionLabel>{txt(contact.label, d.contact.label)}</SectionLabel>
-              <h2 className="mx-auto mt-5 max-w-2xl font-display text-4xl font-bold sm:text-5xl lg:text-6xl">
+              <h2 className="mx-auto mt-5 max-w-2xl break-words font-display text-3xl font-bold sm:text-5xl lg:text-6xl">
                 {txt(contact.headingLead, d.contact.headingLead)}{" "}
                 <span className="text-accent">
                   {txt(contact.headingHighlight, d.contact.headingHighlight)}
                 </span>
               </h2>
-              <p className="mx-auto mt-6 max-w-2xl text-lg text-white/75">
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">
                 {txt(contact.description, d.contact.description)}
               </p>
             </Reveal>
