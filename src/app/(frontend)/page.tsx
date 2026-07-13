@@ -5,6 +5,7 @@ import config from "@payload-config";
 import Navbar from "@/components/Navbar";
 import ProcessCycle from "@/components/ProcessCycle";
 import Reveal from "@/components/Reveal";
+import SectionFooter from "@/components/SectionFooter";
 import { DEFAULTS } from "@/content/defaults";
 
 export const dynamic = "force-dynamic";
@@ -69,6 +70,7 @@ export default async function Home() {
   );
 
   const contactFormUrl = process.env.NEXT_PUBLIC_CONTACT_FORM_URL?.trim();
+  const domainsLine = txt(contact.domainsLine, d.contact.domainsLine);
 
   return (
     <>
@@ -76,11 +78,11 @@ export default async function Home() {
 
       <main id="top" className="flex-1">
         {/* HERO */}
-        <section className="relative isolate flex min-h-screen items-center overflow-hidden bg-navy">
+        <section className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy">
           <div className="grid-texture absolute inset-0" />
 
-          <div className="relative mx-auto w-full max-w-7xl px-5 pt-28 pb-20 lg:px-8">
-            <div>
+          <div className="relative mx-auto w-full max-w-7xl px-5 pt-28 pb-8 lg:px-8">
+            <div className="w-full">
               <div className="grid items-center gap-12 px-6 py-12 lg:grid-cols-[1fr_minmax(0,22rem)] lg:gap-12 lg:px-10 lg:py-14 xl:grid-cols-[1fr_minmax(0,26rem)]">
                 <div className="min-w-0">
                   <Reveal>
@@ -102,19 +104,6 @@ export default async function Home() {
                   </Reveal>
 
                   <Reveal delay={250}>
-                    <div className="mt-14 flex flex-wrap items-center gap-x-3 gap-y-3">
-                      {domains.map((item, i) => (
-                        <span key={`${item.label}-${i}`} className="flex items-center gap-3">
-                          {i > 0 && <span className="text-brand-light/50">·</span>}
-                          <span className="text-sm font-medium uppercase tracking-widest text-white/70">
-                            {item.label}
-                          </span>
-                        </span>
-                      ))}
-                    </div>
-                  </Reveal>
-
-                  <Reveal delay={350}>
                     <div className="mt-16 grid gap-6 sm:grid-cols-3">
                       {stats.map((stat, i) => (
                         <div
@@ -150,17 +139,19 @@ export default async function Home() {
                 </Reveal>
               </div>
             </div>
+
+            <SectionFooter domainsLine={domainsLine} />
           </div>
         </section>
 
         {/* ABOUT */}
         <section
           id="about"
-          className="relative isolate overflow-hidden bg-navy py-24 text-white lg:py-32"
+          className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
         >
           <div className="grid-texture absolute inset-0 opacity-60" />
-          <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
-            <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+          <div className="relative mx-auto w-full max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
+            <div className="grid w-full items-center gap-14 lg:grid-cols-2 lg:gap-20">
               <Reveal>
                 <SectionLabel>{txt(about.label, d.about.label)}</SectionLabel>
                 <h2 className="mt-5 font-display text-4xl font-bold sm:text-5xl">
@@ -177,16 +168,18 @@ export default async function Home() {
                 <ProcessCycle steps={cycleSteps} />
               </Reveal>
             </div>
+
+            <SectionFooter domainsLine={domainsLine} />
           </div>
         </section>
 
         {/* SERVICES */}
         <section
           id="services"
-          className="relative isolate overflow-hidden bg-navy py-24 text-white lg:py-32"
+          className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
         >
           <div className="grid-texture absolute inset-0 opacity-60" />
-          <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
+          <div className="relative mx-auto w-full max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
             <Reveal className="max-w-3xl">
               <SectionLabel>{txt(svc.label, d.services.label)}</SectionLabel>
               <h2 className="mt-5 font-display text-4xl font-bold sm:text-5xl">
@@ -251,16 +244,18 @@ export default async function Home() {
                 </p>
               </div>
             </Reveal>
+
+            <SectionFooter domainsLine={domainsLine} />
           </div>
         </section>
 
         {/* WHY US */}
         <section
           id="why-us"
-          className="relative isolate overflow-hidden bg-navy py-24 text-white lg:py-32"
+          className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
         >
           <div className="grid-texture absolute inset-0 opacity-60" />
-          <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
+          <div className="relative mx-auto w-full max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
             <Reveal>
               <SectionLabel>{txt(whyUs.label, d.whyUs.label)}</SectionLabel>
             </Reveal>
@@ -270,50 +265,66 @@ export default async function Home() {
                 <Reveal
                   key={i}
                   delay={(i % 3) * 90}
-                  className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8"
+                  className="rounded-2xl border border-white/10 bg-white/5 p-8"
                 >
-                  <span className="absolute -right-2 -top-4 font-display text-8xl font-bold text-white/5">
-                    {i + 1}
-                  </span>
-                  <h3 className="relative font-display text-xl font-semibold">
-                    {item.title}
-                  </h3>
-                  <p className="relative mt-3 text-sm leading-relaxed text-white/70">
+                  <div className="flex items-center gap-4">
+                    <span className="font-display text-3xl font-bold text-accent/80">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="font-display text-xl font-semibold">
+                      {item.title}
+                    </h3>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-white/70">
                     {item.body}
                   </p>
                 </Reveal>
               ))}
             </div>
 
-            <Reveal delay={100} className="mt-16">
-              <h3 className="font-display text-2xl font-semibold text-accent">
+            <Reveal delay={100} className="mt-20">
+              <h3 className="font-display text-3xl font-bold text-accent sm:text-4xl">
                 {txt(whyUs.ourWorkLabel, d.whyUs.ourWorkLabel)}
               </h3>
-              <ul className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-3">
-                {ourWorkLinks.map((link, i) => (
-                  <li key={i}>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-brand-light transition-colors hover:text-white"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+              <ul className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:gap-4">
+                {ourWorkLinks.map((link, i) => {
+                  const isYouTube = /youtube\.com|youtu\.be/i.test(link.href);
+                  return (
+                    <li key={i}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2.5 rounded-xl border border-white/15 bg-white/5 px-5 py-3.5 text-base font-medium text-brand-light transition-all hover:border-accent/50 hover:bg-white/10 hover:text-white"
+                      >
+                        {isYouTube && (
+                          <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                            className="h-5 w-5 flex-none fill-current"
+                          >
+                            <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.8 15.5v-7l6.2 3.5-6.2 3.5z" />
+                          </svg>
+                        )}
+                        {link.label}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </Reveal>
+
+            <SectionFooter domainsLine={domainsLine} />
           </div>
         </section>
 
         {/* CONTACT */}
         <section
           id="contact"
-          className="relative isolate overflow-hidden bg-navy py-24 text-white lg:py-32"
+          className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
         >
           <div className="grid-texture absolute inset-0" />
-          <div className="relative mx-auto max-w-4xl px-5 text-center lg:px-8">
+          <div className="relative mx-auto w-full max-w-4xl px-5 py-24 text-center lg:px-8 lg:py-32">
             <Reveal>
               <SectionLabel>{txt(contact.label, d.contact.label)}</SectionLabel>
               <h2 className="mx-auto mt-5 max-w-2xl font-display text-4xl font-bold sm:text-5xl lg:text-6xl">
@@ -339,31 +350,30 @@ export default async function Home() {
                 ))}
               </div>
 
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                <a
-                  href={`mailto:${txt(contact.email, d.contact.email)}`}
-                  className="rounded-md bg-accent px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-accent/25 transition-transform hover:-translate-y-0.5"
-                >
-                  {txt(contact.email, d.contact.email)}
-                </a>
-                {contactFormUrl ? (
+              {contactFormUrl ? (
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
                   <a
                     href={contactFormUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-md border border-white/25 px-8 py-4 text-lg font-semibold text-white transition-colors hover:bg-white/10"
+                    className="rounded-md bg-accent px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-accent/25 transition-transform hover:-translate-y-0.5"
                   >
                     Reach Out Directly
                   </a>
-                ) : null}
-              </div>
+                </div>
+              ) : null}
 
-              <div className="mt-8 grid gap-4 text-sm text-white/70 sm:grid-cols-3">
+              <div className={`grid gap-4 text-sm text-white/70 sm:grid-cols-3 ${contactFormUrl ? "mt-8" : "mt-10"}`}>
                 <div>
                   <p className="font-semibold uppercase tracking-widest text-brand-light">
                     Email
                   </p>
-                  <p className="mt-1">{txt(contact.email, d.contact.email)}</p>
+                  <a
+                    href={`mailto:${txt(contact.email, d.contact.email)}`}
+                    className="mt-1 block text-brand-light hover:text-white"
+                  >
+                    {txt(contact.email, d.contact.email)}
+                  </a>
                 </div>
                 <div>
                   <p className="font-semibold uppercase tracking-widest text-brand-light">
@@ -386,20 +396,11 @@ export default async function Home() {
                 </div>
               </div>
             </Reveal>
+
+            <SectionFooter domainsLine={domainsLine} />
           </div>
         </section>
       </main>
-
-      <footer className="bg-navy py-10 text-white/60">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 sm:flex-row lg:px-8">
-          <span className="font-display text-lg font-bold tracking-wide text-white">
-            <span className="text-brand-light">LAMINAR</span> DYNAMICS
-          </span>
-          <p className="text-center text-sm sm:text-right">
-            {txt(contact.footerLine, d.contact.footerLine)}
-          </p>
-        </div>
-      </footer>
     </>
   );
 }
