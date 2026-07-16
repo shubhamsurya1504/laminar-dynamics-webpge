@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 const LINKS = [
   { href: "#top", label: "Home" },
   { href: "#about", label: "About" },
-  { href: "#services", label: "Services" },
+  { href: "#services", label: "Work & Service" },
   { href: "#why-us", label: "Why Us" },
+  { href: "#testimonials", label: "Testimonials" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -29,13 +30,13 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between pl-3 pr-5 py-4 lg:pl-4 lg:pr-10">
         <a href="#top" className="font-display text-xl font-bold tracking-wide">
           <span className="text-white">LAMINAR</span>{" "}
           <span className="text-brand-light">DYNAMICS</span>
         </a>
 
-        <div className="hidden items-center gap-7 lg:flex">
+        <div className="hidden items-center gap-4 xl:gap-6 lg:flex">
           {LINKS.map((l) => (
             <a
               key={l.href}

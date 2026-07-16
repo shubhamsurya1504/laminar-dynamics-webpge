@@ -6,8 +6,8 @@ export const DEFAULTS = {
   hero: {
     titleLead: "Let's build something",
     titleHighlight: "extraordinary",
-    primaryCtaLabel: "See our work",
-    primaryCtaHref: "#services",
+    primaryCtaLabel: "our work",
+    primaryCtaHref: "https://myrahulroy.blogspot.com/",
     featuredImage: "/hummingbird.jpg",
     domains: [
       { label: "Aerial" },
@@ -28,6 +28,7 @@ export const DEFAULTS = {
     body: "We are an unmanned vehicle company where Passion complements deep tech expertise and experience.",
     tagline:
       "UAV prototyping, deep technical consulting & service and repairs. Original designs — Real aircraft — Fast.",
+    image: "",
     cycleSteps: [
       { label: "Design" },
       { label: "Simulate" },
@@ -43,8 +44,9 @@ export const DEFAULTS = {
   },
 
   services: {
-    label: "Services",
+    label: "Work & Service",
     heading: "Full Spectrum",
+    image: "",
     items: [
       {
         no: "01",
@@ -95,6 +97,7 @@ export const DEFAULTS = {
   deepTech: {
     label: "Services",
     heading: "Deep Tech expertise",
+    image: "",
     pillars: [
       {
         title: "Aircraft Design",
@@ -120,6 +123,7 @@ export const DEFAULTS = {
 
   whyUs: {
     label: "Why Us",
+    image: "",
     items: [
       {
         title: "Proven Execution",
@@ -150,6 +154,25 @@ export const DEFAULTS = {
     ],
   },
 
+  testimonials: {
+    label: "Testimonials and for sale",
+    heading: "Testimonials",
+    image: "",
+    items: [
+      { text: "Item 1" },
+      { text: "Item 2" },
+      { text: "Item 3" },
+      { text: "Item 4" },
+    ],
+    forSaleLabel: "For Sale",
+    forSaleItems: [
+      { title: "Item 1", body: "" },
+      { title: "Item 2", body: "" },
+      { title: "Item 3", body: "" },
+      { title: "Item 4", body: "" },
+    ],
+  },
+
   contact: {
     label: "Contact",
     headingLead: "Let's build something",
@@ -159,6 +182,7 @@ export const DEFAULTS = {
     email: "roy.laminardynamics@gmail.com",
     webLabel: "myrahulroy.blogspot.com",
     webHref: "https://myrahulroy.blogspot.com",
+    image: "",
     domainsLine: "Aerial · Surface · Underwater · X-Rocketry",
     footerLine: "laminardynamics.net · rahul.roy@laminardynamics.net",
   },

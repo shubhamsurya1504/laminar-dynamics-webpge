@@ -1,6 +1,19 @@
 import type { GlobalConfig } from "payload";
 import { DEFAULTS } from "@/content/defaults";
 
+const textList = (
+  name: string,
+  label: string,
+  defaultValue: { text: string }[],
+  textarea = false,
+) => ({
+  name,
+  label,
+  type: "array" as const,
+  defaultValue,
+  fields: [{ name: "text", type: (textarea ? "textarea" : "text") as "text" }],
+});
+
 const image = (label = "Image", name = "image") => ({
   name,
   type: "upload" as const,
@@ -62,6 +75,7 @@ export const Homepage: GlobalConfig = {
                 { name: "heading", type: "text", defaultValue: DEFAULTS.about.heading },
                 { name: "body", type: "textarea", defaultValue: DEFAULTS.about.body },
                 { name: "tagline", type: "textarea", defaultValue: DEFAULTS.about.tagline },
+                image("About page image"),
                 {
                   name: "cycleSteps",
                   type: "array",
@@ -87,7 +101,7 @@ export const Homepage: GlobalConfig = {
           ],
         },
         {
-          label: "Services",
+          label: "Work & Service",
           fields: [
             {
               name: "services",
@@ -95,6 +109,7 @@ export const Homepage: GlobalConfig = {
               fields: [
                 { name: "label", type: "text", defaultValue: DEFAULTS.services.label },
                 { name: "heading", type: "text", defaultValue: DEFAULTS.services.heading },
+                image("Work & Service page image"),
                 {
                   name: "items",
                   type: "array",
@@ -114,6 +129,7 @@ export const Homepage: GlobalConfig = {
               fields: [
                 { name: "label", type: "text", defaultValue: DEFAULTS.deepTech.label },
                 { name: "heading", type: "text", defaultValue: DEFAULTS.deepTech.heading },
+                image("Deep Tech page image"),
                 {
                   name: "pillars",
                   type: "array",
@@ -137,6 +153,7 @@ export const Homepage: GlobalConfig = {
               type: "group",
               fields: [
                 { name: "label", type: "text", defaultValue: DEFAULTS.whyUs.label },
+                image("Why Us page image"),
                 {
                   name: "items",
                   type: "array",
@@ -161,6 +178,36 @@ export const Homepage: GlobalConfig = {
           ],
         },
         {
+          label: "Testimonials",
+          fields: [
+            {
+              name: "testimonials",
+              type: "group",
+              fields: [
+                { name: "label", type: "text", defaultValue: DEFAULTS.testimonials.label },
+                { name: "heading", type: "text", defaultValue: DEFAULTS.testimonials.heading },
+                image("Page image"),
+                textList("items", "Testimonials", DEFAULTS.testimonials.items),
+                {
+                  name: "forSaleLabel",
+                  type: "text",
+                  defaultValue: DEFAULTS.testimonials.forSaleLabel,
+                },
+                {
+                  name: "forSaleItems",
+                  type: "array",
+                  label: "For Sale items",
+                  defaultValue: DEFAULTS.testimonials.forSaleItems,
+                  fields: [
+                    { name: "title", type: "text" },
+                    { name: "body", type: "textarea" },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
           label: "Contact",
           fields: [
             {
@@ -174,6 +221,7 @@ export const Homepage: GlobalConfig = {
                 { name: "email", type: "text", defaultValue: DEFAULTS.contact.email },
                 { name: "webLabel", type: "text", defaultValue: DEFAULTS.contact.webLabel },
                 { name: "webHref", type: "text", defaultValue: DEFAULTS.contact.webHref },
+                image("Contact page image"),
                 { name: "domainsLine", type: "text", defaultValue: DEFAULTS.contact.domainsLine },
                 { name: "footerLine", type: "text", defaultValue: DEFAULTS.contact.footerLine },
               ],

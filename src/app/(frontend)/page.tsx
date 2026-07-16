@@ -10,6 +10,8 @@ import { DEFAULTS } from "@/content/defaults";
 
 export const dynamic = "force-dynamic";
 
+const CONTENT_X = "pl-3 pr-5 lg:pl-4 lg:pr-10";
+
 const txt = (v: unknown, fb: string): string =>
   typeof v === "string" && v.trim() ? v : fb;
 
@@ -28,6 +30,32 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
       <span className="text-white/40">/</span>
       {children}
     </span>
+  );
+}
+
+function PageImage({
+  src,
+  alt,
+  className = "mt-10 max-w-md",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
+  if (!src) return null;
+  return (
+    <Reveal delay={100} className={className}>
+      <div className="relative overflow-hidden border border-white/90 bg-white shadow-[0_20px_48px_rgba(0,0,0,0.45)]">
+        <Image
+          src={src}
+          alt={alt}
+          width={960}
+          height={540}
+          sizes="(max-width: 1024px) 90vw, 28rem"
+          className="h-auto w-full object-cover"
+        />
+      </div>
+    </Reveal>
   );
 }
 
@@ -50,9 +78,9 @@ export default async function Home() {
   const svc = (data.services ?? {}) as Record<string, unknown>;
   const deepTech = (data.deepTech ?? {}) as Record<string, unknown>;
   const whyUs = (data.whyUs ?? {}) as Record<string, unknown>;
+  const testimonials = (data.testimonials ?? {}) as Record<string, unknown>;
   const contact = (data.contact ?? {}) as Record<string, unknown>;
 
-  const domains = arr<{ label: string }>(hero.domains, d.hero.domains);
   const stats = arr<{ value: string; label: string }>(hero.stats, d.hero.stats);
   const cycleSteps = arr<{ label: string }>(about.cycleSteps, d.about.cycleSteps);
   const services = arr<{ no: string; title: string; points: { text: string }[] }>(
@@ -68,9 +96,27 @@ export default async function Home() {
     whyUs.ourWorkLinks,
     d.whyUs.ourWorkLinks,
   );
+  const testimonialItems = arr<{ text: string }>(
+    testimonials.items,
+    d.testimonials.items,
+  );
+  const forSaleItems = arr<{ title: string; body: string }>(
+    testimonials.forSaleItems,
+    d.testimonials.forSaleItems,
+  );
 
   const contactFormUrl = process.env.NEXT_PUBLIC_CONTACT_FORM_URL?.trim();
   const domainsLine = txt(contact.domainsLine, d.contact.domainsLine);
+
+  const ctaHref = txt(hero.primaryCtaHref, d.hero.primaryCtaHref);
+  const ctaIsExternal = /^https?:\/\//i.test(ctaHref);
+
+  const aboutImage = mediaUrl(about.image, d.about.image);
+  const servicesImage = mediaUrl(svc.image, d.services.image);
+  const deepTechImage = mediaUrl(deepTech.image, d.deepTech.image);
+  const whyUsImage = mediaUrl(whyUs.image, d.whyUs.image);
+  const testimonialsImage = mediaUrl(testimonials.image, d.testimonials.image);
+  const contactImage = mediaUrl(contact.image, d.contact.image);
 
   return (
     <>
@@ -81,9 +127,9 @@ export default async function Home() {
         <section className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy">
           <div className="grid-texture absolute inset-0" />
 
-          <div className="relative mx-auto w-full max-w-7xl px-5 pt-28 pb-8 lg:px-8">
+          <div className={`relative mx-auto w-full max-w-7xl ${CONTENT_X} pt-28 pb-8`}>
             <div className="w-full min-w-0">
-              <div className="grid items-center gap-12 px-0 py-12 sm:px-6 lg:grid-cols-[1fr_minmax(0,22rem)] lg:gap-12 lg:px-10 lg:py-14 xl:grid-cols-[1fr_minmax(0,26rem)]">
+              <div className="grid items-center gap-12 px-0 py-12 sm:pl-4 sm:pr-6 lg:grid-cols-[1fr_minmax(0,22rem)] lg:gap-12 lg:pl-6 lg:pr-8 lg:py-14 xl:grid-cols-[1fr_minmax(0,26rem)]">
                 <div className="min-w-0">
                   <Reveal>
                     <h1 className="max-w-4xl break-words font-display text-4xl font-bold leading-[1.1] text-white sm:text-5xl md:text-6xl lg:text-7xl">
@@ -95,11 +141,13 @@ export default async function Home() {
                   </Reveal>
                   <Reveal delay={150}>
                     <a
-                      href={txt(hero.primaryCtaHref, d.hero.primaryCtaHref)}
+                      href={ctaHref}
+                      {...(ctaIsExternal
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
                       className="mt-9 inline-flex items-center gap-2 text-lg font-semibold text-brand-light transition-colors hover:text-white"
                     >
                       {txt(hero.primaryCtaLabel, d.hero.primaryCtaLabel)}
-                      <span aria-hidden="true">→</span>
                     </a>
                   </Reveal>
 
@@ -150,7 +198,7 @@ export default async function Home() {
           className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
         >
           <div className="grid-texture absolute inset-0 opacity-60" />
-          <div className="relative mx-auto w-full max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
+          <div className={`relative mx-auto w-full max-w-7xl ${CONTENT_X} py-24 lg:py-32`}>
             <div className="grid w-full items-center gap-14 lg:grid-cols-2 lg:gap-20">
               <Reveal>
                 <SectionLabel>{txt(about.label, d.about.label)}</SectionLabel>
@@ -164,8 +212,25 @@ export default async function Home() {
                   {txt(about.tagline, d.about.tagline)}
                 </p>
               </Reveal>
-              <Reveal delay={150} className="flex items-center justify-center">
-                <ProcessCycle steps={cycleSteps} />
+              <Reveal delay={150} className="min-w-0">
+                {aboutImage ? (
+                  <div className="relative">
+                    <div className="relative overflow-hidden border border-white/90 bg-white shadow-[0_20px_48px_rgba(0,0,0,0.45)]">
+                      <Image
+                        src={aboutImage}
+                        alt="About — Laminar Dynamics"
+                        width={960}
+                        height={540}
+                        sizes="(max-width: 1024px) 90vw, 26rem"
+                        className="h-auto w-full object-cover"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center">
+                    <ProcessCycle steps={cycleSteps} />
+                  </div>
+                )}
               </Reveal>
             </div>
 
@@ -179,13 +244,15 @@ export default async function Home() {
           className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
         >
           <div className="grid-texture absolute inset-0 opacity-60" />
-          <div className="relative mx-auto w-full max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
+          <div className={`relative mx-auto w-full max-w-7xl ${CONTENT_X} py-24 lg:py-32`}>
             <Reveal className="max-w-3xl">
               <SectionLabel>{txt(svc.label, d.services.label)}</SectionLabel>
               <h2 className="mt-5 break-words font-display text-3xl font-bold sm:text-5xl">
                 {txt(svc.heading, d.services.heading)}
               </h2>
             </Reveal>
+
+            <PageImage src={servicesImage} alt="Services — Laminar Dynamics" />
 
             <div className="mt-14 grid gap-6 md:grid-cols-2">
               {services.map((s, i) => (
@@ -212,12 +279,16 @@ export default async function Home() {
               ))}
             </div>
 
+            <SectionFooter domainsLine={domainsLine} />
+
             <Reveal className="mt-24 max-w-3xl">
               <SectionLabel>{txt(deepTech.label, d.deepTech.label)}</SectionLabel>
               <h2 className="mt-5 break-words font-display text-3xl font-bold sm:text-5xl">
                 {txt(deepTech.heading, d.deepTech.heading)}
               </h2>
             </Reveal>
+
+            <PageImage src={deepTechImage} alt="Deep Tech — Laminar Dynamics" />
 
             <div className="mt-14 grid gap-6 sm:grid-cols-2">
               {pillars.map((p, i) => (
@@ -255,10 +326,12 @@ export default async function Home() {
           className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
         >
           <div className="grid-texture absolute inset-0 opacity-60" />
-          <div className="relative mx-auto w-full max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
+          <div className={`relative mx-auto w-full max-w-7xl ${CONTENT_X} py-24 lg:py-32`}>
             <Reveal>
               <SectionLabel>{txt(whyUs.label, d.whyUs.label)}</SectionLabel>
             </Reveal>
+
+            <PageImage src={whyUsImage} alt="Why Us — Laminar Dynamics" />
 
             <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {whyItems.map((item, i) => (
@@ -295,7 +368,7 @@ export default async function Home() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2.5 rounded-xl border border-white/15 bg-white/5 px-5 py-3.5 text-base font-medium text-brand-light transition-all hover:border-accent/50 hover:bg-white/10 hover:text-white"
+                        className="inline-flex items-center gap-2.5 rounded-md bg-accent px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-accent/25 transition-transform hover:-translate-y-0.5"
                       >
                         {isYouTube && (
                           <svg
@@ -318,13 +391,83 @@ export default async function Home() {
           </div>
         </section>
 
+        {/* TESTIMONIALS & FOR SALE */}
+        <section
+          id="testimonials"
+          className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
+        >
+          <div className="grid-texture absolute inset-0 opacity-60" />
+          <div className={`relative mx-auto w-full max-w-7xl ${CONTENT_X} py-24 lg:py-32`}>
+            <Reveal>
+              <SectionLabel>
+                {txt(testimonials.label, d.testimonials.label)}
+              </SectionLabel>
+            </Reveal>
+
+            <PageImage src={testimonialsImage} alt="Testimonials and For Sale — Laminar Dynamics" />
+
+            <div className="mt-14 grid gap-12 lg:grid-cols-2 lg:gap-16">
+              <div>
+                <Reveal>
+                  <h2 className="break-words font-display text-3xl font-bold sm:text-4xl">
+                    {txt(testimonials.forSaleLabel, d.testimonials.forSaleLabel)}
+                  </h2>
+                </Reveal>
+                <div className="mt-8 grid grid-cols-2 gap-4">
+                  {forSaleItems.map((item, i) => (
+                    <Reveal
+                      key={i}
+                      delay={i * 60}
+                      className="flex min-h-[7.5rem] flex-col justify-between rounded-xl border border-white/10 bg-navy-light/80 p-5"
+                    >
+                      <p className="text-center font-display text-lg font-semibold text-white">
+                        {item.title}
+                      </p>
+                      {item.body ? (
+                        <p className="mt-2 text-center text-xs text-white/65">{item.body}</p>
+                      ) : null}
+                      <span
+                        className="mt-4 block h-0.5 w-full bg-brand-light"
+                        aria-hidden
+                      />
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Reveal delay={80}>
+                  <h2 className="break-words font-display text-3xl font-bold sm:text-4xl">
+                    {txt(testimonials.heading, d.testimonials.heading)}
+                  </h2>
+                </Reveal>
+                <div className="mt-8 space-y-4">
+                  {testimonialItems.map((t, i) => (
+                    <Reveal
+                      key={i}
+                      delay={80 + i * 60}
+                      className="rounded-xl border border-white/10 bg-white/5 p-5 italic text-white/80"
+                    >
+                      &ldquo;{t.text}&rdquo;
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <SectionFooter domainsLine={domainsLine} />
+          </div>
+        </section>
+
         {/* CONTACT */}
         <section
           id="contact"
           className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
         >
           <div className="grid-texture absolute inset-0" />
-          <div className="relative mx-auto w-full min-w-0 max-w-4xl px-5 py-24 text-center lg:px-8 lg:py-32">
+          <div
+            className={`relative mx-auto w-full min-w-0 max-w-4xl ${CONTENT_X} py-24 text-center lg:py-32`}
+          >
             <Reveal>
               <SectionLabel>{txt(contact.label, d.contact.label)}</SectionLabel>
               <h2 className="mx-auto mt-5 max-w-2xl break-words font-display text-3xl font-bold sm:text-5xl lg:text-6xl">
@@ -338,20 +481,17 @@ export default async function Home() {
               </p>
             </Reveal>
 
-            <Reveal delay={150} className="mt-12">
-              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-3">
-                {domains.map((item, i) => (
-                  <span key={`contact-${item.label}-${i}`} className="flex items-center gap-3">
-                    {i > 0 && <span className="text-brand-light/50">·</span>}
-                    <span className="text-sm font-medium uppercase tracking-widest text-white/70">
-                      {item.label}
-                    </span>
-                  </span>
-                ))}
-              </div>
+            <div className="flex justify-center">
+              <PageImage
+                src={contactImage}
+                alt="Contact — Laminar Dynamics"
+                className="mt-10 max-w-md"
+              />
+            </div>
 
+            <Reveal delay={150} className="mt-12">
               {contactFormUrl ? (
-                <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <div className="flex flex-wrap items-center justify-center gap-4">
                   <a
                     href={contactFormUrl}
                     target="_blank"
@@ -363,7 +503,9 @@ export default async function Home() {
                 </div>
               ) : null}
 
-              <div className={`grid gap-4 text-sm text-white/70 sm:grid-cols-3 ${contactFormUrl ? "mt-8" : "mt-10"}`}>
+              <div
+                className={`grid gap-4 text-sm text-white/70 sm:grid-cols-2 ${contactFormUrl ? "mt-8" : "mt-10"}`}
+              >
                 <div>
                   <p className="font-semibold uppercase tracking-widest text-brand-light">
                     Email
@@ -387,12 +529,6 @@ export default async function Home() {
                   >
                     {txt(contact.webLabel, d.contact.webLabel)}
                   </a>
-                </div>
-                <div>
-                  <p className="font-semibold uppercase tracking-widest text-brand-light">
-                    Domains
-                  </p>
-                  <p className="mt-1">{txt(contact.domainsLine, d.contact.domainsLine)}</p>
                 </div>
               </div>
             </Reveal>
