@@ -1,16 +1,13 @@
-import Image from "next/image";
 import { getPayload } from "payload";
 import config from "@payload-config";
 
 import Navbar from "@/components/Navbar";
-import ProcessCycle from "@/components/ProcessCycle";
 import Reveal from "@/components/Reveal";
 import SectionFooter from "@/components/SectionFooter";
+import SectionImage, { CONTENT_X, IMAGE_GRID } from "@/components/SectionImage";
 import { DEFAULTS } from "@/content/defaults";
 
 export const dynamic = "force-dynamic";
-
-const CONTENT_X = "pl-3 pr-5 lg:pl-4 lg:pr-10";
 
 const txt = (v: unknown, fb: string): string =>
   typeof v === "string" && v.trim() ? v : fb;
@@ -30,32 +27,6 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
       <span className="text-white/40">/</span>
       {children}
     </span>
-  );
-}
-
-function PageImage({
-  src,
-  alt,
-  className = "mt-10 max-w-md",
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-}) {
-  if (!src) return null;
-  return (
-    <Reveal delay={100} className={className}>
-      <div className="relative overflow-hidden border border-white/90 bg-white shadow-[0_20px_48px_rgba(0,0,0,0.45)]">
-        <Image
-          src={src}
-          alt={alt}
-          width={960}
-          height={540}
-          sizes="(max-width: 1024px) 90vw, 28rem"
-          className="h-auto w-full object-cover"
-        />
-      </div>
-    </Reveal>
   );
 }
 
@@ -82,7 +53,6 @@ export default async function Home() {
   const contact = (data.contact ?? {}) as Record<string, unknown>;
 
   const stats = arr<{ value: string; label: string }>(hero.stats, d.hero.stats);
-  const cycleSteps = arr<{ label: string }>(about.cycleSteps, d.about.cycleSteps);
   const services = arr<{ no: string; title: string; points: { text: string }[] }>(
     svc.items,
     d.services.items,
@@ -100,10 +70,6 @@ export default async function Home() {
     testimonials.items,
     d.testimonials.items,
   );
-  const forSaleItems = arr<{ title: string; body: string }>(
-    testimonials.forSaleItems,
-    d.testimonials.forSaleItems,
-  );
 
   const contactFormUrl = process.env.NEXT_PUBLIC_CONTACT_FORM_URL?.trim();
   const domainsLine = txt(contact.domainsLine, d.contact.domainsLine);
@@ -113,10 +79,8 @@ export default async function Home() {
 
   const aboutImage = mediaUrl(about.image, d.about.image);
   const servicesImage = mediaUrl(svc.image, d.services.image);
-  const deepTechImage = mediaUrl(deepTech.image, d.deepTech.image);
-  const whyUsImage = mediaUrl(whyUs.image, d.whyUs.image);
-  const testimonialsImage = mediaUrl(testimonials.image, d.testimonials.image);
-  const contactImage = mediaUrl(contact.image, d.contact.image);
+  const forSaleImage1 = mediaUrl(testimonials.forSaleImage1, d.testimonials.forSaleImage1);
+  const forSaleImage2 = mediaUrl(testimonials.forSaleImage2, d.testimonials.forSaleImage2);
 
   return (
     <>
@@ -129,7 +93,7 @@ export default async function Home() {
 
           <div className={`relative mx-auto w-full max-w-7xl ${CONTENT_X} pt-28 pb-8`}>
             <div className="w-full min-w-0">
-              <div className="grid items-center gap-12 px-0 py-12 sm:pl-4 sm:pr-6 lg:grid-cols-[1fr_minmax(0,22rem)] lg:gap-12 lg:pl-6 lg:pr-8 lg:py-14 xl:grid-cols-[1fr_minmax(0,26rem)]">
+              <div className={`grid items-center gap-12 py-12 sm:pl-4 lg:gap-10 lg:py-14 ${IMAGE_GRID}`}>
                 <div className="min-w-0">
                   <Reveal>
                     <h1 className="max-w-4xl break-words font-display text-4xl font-bold leading-[1.1] text-white sm:text-5xl md:text-6xl lg:text-7xl">
@@ -170,21 +134,13 @@ export default async function Home() {
                   </Reveal>
                 </div>
 
-                <Reveal delay={200} className="min-w-0">
-                  <div className="relative">
-                    <div className="relative overflow-hidden border border-white/90 bg-white shadow-[0_20px_48px_rgba(0,0,0,0.45)]">
-                      <Image
-                        src={mediaUrl(hero.featuredImage, d.hero.featuredImage)}
-                        alt="The Hummingbird — Autonomous VTOL UAV prototype by Laminar Aeroworks"
-                        width={960}
-                        height={540}
-                        priority
-                        sizes="(max-width: 1024px) 90vw, 26rem"
-                        className="h-auto w-full object-cover"
-                      />
-                    </div>
-                  </div>
-                </Reveal>
+                <SectionImage
+                  src={mediaUrl(hero.featuredImage, d.hero.featuredImage)}
+                  alt="The Hummingbird — Autonomous VTOL UAV prototype by Laminar Aeroworks"
+                  priority
+                  delay={200}
+                  placeholderLabel="Upload Hummingbird image in admin"
+                />
               </div>
             </div>
 
@@ -195,11 +151,11 @@ export default async function Home() {
         {/* ABOUT */}
         <section
           id="about"
-          className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
+          className="relative isolate overflow-hidden bg-navy text-white"
         >
           <div className="grid-texture absolute inset-0 opacity-60" />
-          <div className={`relative mx-auto w-full max-w-7xl ${CONTENT_X} py-24 lg:py-32`}>
-            <div className="grid w-full items-center gap-14 lg:grid-cols-2 lg:gap-20">
+          <div className={`relative mx-auto w-full max-w-7xl ${CONTENT_X} pt-16 pb-24 lg:pt-20 lg:pb-32`}>
+            <div className={`grid w-full items-center gap-12 lg:gap-10 ${IMAGE_GRID}`}>
               <Reveal>
                 <SectionLabel>{txt(about.label, d.about.label)}</SectionLabel>
                 <h2 className="mt-5 break-words font-display text-3xl font-bold sm:text-5xl">
@@ -212,71 +168,67 @@ export default async function Home() {
                   {txt(about.tagline, d.about.tagline)}
                 </p>
               </Reveal>
-              <Reveal delay={150} className="min-w-0">
-                {aboutImage ? (
-                  <div className="relative">
-                    <div className="relative overflow-hidden border border-white/90 bg-white shadow-[0_20px_48px_rgba(0,0,0,0.45)]">
-                      <Image
-                        src={aboutImage}
-                        alt="About — Laminar Dynamics"
-                        width={960}
-                        height={540}
-                        sizes="(max-width: 1024px) 90vw, 26rem"
-                        className="h-auto w-full object-cover"
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center">
-                    <ProcessCycle steps={cycleSteps} />
-                  </div>
-                )}
-              </Reveal>
+              <SectionImage
+                src={aboutImage}
+                alt="About — Laminar Dynamics process cycle"
+                delay={150}
+                framed={false}
+                fixedAspect
+                objectFit="contain"
+                placeholderLabel="Upload About image in admin"
+              />
             </div>
 
-            <SectionFooter domainsLine={domainsLine} />
+            <SectionFooter domainsLine={domainsLine} className="mt-16 lg:mt-20" />
           </div>
         </section>
 
         {/* SERVICES */}
         <section
           id="services"
-          className="relative isolate flex min-h-screen flex-col justify-center overflow-hidden bg-navy text-white"
+          className="relative isolate overflow-hidden bg-navy text-white"
         >
           <div className="grid-texture absolute inset-0 opacity-60" />
-          <div className={`relative mx-auto w-full max-w-7xl ${CONTENT_X} py-24 lg:py-32`}>
-            <Reveal className="max-w-3xl">
+          <div className={`relative mx-auto w-full max-w-7xl ${CONTENT_X} pt-20 pb-16 lg:pt-24 lg:pb-20`}>
+            <Reveal>
               <SectionLabel>{txt(svc.label, d.services.label)}</SectionLabel>
               <h2 className="mt-5 break-words font-display text-3xl font-bold sm:text-5xl">
                 {txt(svc.heading, d.services.heading)}
               </h2>
             </Reveal>
 
-            <PageImage src={servicesImage} alt="Services — Laminar Dynamics" />
+            <div className={`mt-10 grid items-center gap-8 lg:gap-10 ${IMAGE_GRID}`}>
+              <div className="grid gap-4 md:grid-cols-2">
+                {services.map((s, i) => (
+                  <Reveal
+                    key={i}
+                    delay={(i % 2) * 100}
+                    className="rounded-xl border border-white/10 bg-white/5 p-5"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="font-display text-2xl font-bold text-accent/80">
+                        {s.no}
+                      </span>
+                      <h3 className="font-display text-lg font-semibold">{s.title}</h3>
+                    </div>
+                    <ul className="mt-4 space-y-2">
+                      {(s.points ?? []).map((pt, j) => (
+                        <li key={j} className="flex items-start gap-2 text-sm text-white/75">
+                          <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-brand" />
+                          {pt.text}
+                        </li>
+                      ))}
+                    </ul>
+                  </Reveal>
+                ))}
+              </div>
 
-            <div className="mt-14 grid gap-6 md:grid-cols-2">
-              {services.map((s, i) => (
-                <Reveal
-                  key={i}
-                  delay={(i % 2) * 100}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-8"
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="font-display text-3xl font-bold text-accent/80">
-                      {s.no}
-                    </span>
-                    <h3 className="font-display text-2xl font-semibold">{s.title}</h3>
-                  </div>
-                  <ul className="mt-6 space-y-3">
-                    {(s.points ?? []).map((pt, j) => (
-                      <li key={j} className="flex items-start gap-2.5 text-white/75">
-                        <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-brand" />
-                        {pt.text}
-                      </li>
-                    ))}
-                  </ul>
-                </Reveal>
-              ))}
+              <SectionImage
+                src={servicesImage}
+                alt="Full Spectrum — Laminar Dynamics"
+                delay={100}
+                placeholderLabel="Upload Full Spectrum image in admin"
+              />
             </div>
 
             <SectionFooter domainsLine={domainsLine} />
@@ -287,8 +239,6 @@ export default async function Home() {
                 {txt(deepTech.heading, d.deepTech.heading)}
               </h2>
             </Reveal>
-
-            <PageImage src={deepTechImage} alt="Deep Tech — Laminar Dynamics" />
 
             <div className="mt-14 grid gap-6 sm:grid-cols-2">
               {pillars.map((p, i) => (
@@ -330,8 +280,6 @@ export default async function Home() {
             <Reveal>
               <SectionLabel>{txt(whyUs.label, d.whyUs.label)}</SectionLabel>
             </Reveal>
-
-            <PageImage src={whyUsImage} alt="Why Us — Laminar Dynamics" />
 
             <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {whyItems.map((item, i) => (
@@ -404,8 +352,6 @@ export default async function Home() {
               </SectionLabel>
             </Reveal>
 
-            <PageImage src={testimonialsImage} alt="Testimonials and For Sale — Laminar Dynamics" />
-
             <div className="mt-14 grid gap-12 lg:grid-cols-2 lg:gap-16">
               <div>
                 <Reveal>
@@ -414,24 +360,20 @@ export default async function Home() {
                   </h2>
                 </Reveal>
                 <div className="mt-8 grid grid-cols-2 gap-4">
-                  {forSaleItems.map((item, i) => (
-                    <Reveal
-                      key={i}
-                      delay={i * 60}
-                      className="flex min-h-[7.5rem] flex-col justify-between rounded-xl border border-white/10 bg-navy-light/80 p-5"
-                    >
-                      <p className="text-center font-display text-lg font-semibold text-white">
-                        {item.title}
-                      </p>
-                      {item.body ? (
-                        <p className="mt-2 text-center text-xs text-white/65">{item.body}</p>
-                      ) : null}
-                      <span
-                        className="mt-4 block h-0.5 w-full bg-brand-light"
-                        aria-hidden
-                      />
-                    </Reveal>
-                  ))}
+                  <SectionImage
+                    src={forSaleImage1}
+                    alt="For Sale — Laminar Dynamics"
+                    delay={60}
+                    className="min-w-0"
+                    placeholderLabel="Upload For Sale image 1"
+                  />
+                  <SectionImage
+                    src={forSaleImage2}
+                    alt="For Sale — Laminar Dynamics"
+                    delay={120}
+                    className="min-w-0"
+                    placeholderLabel="Upload For Sale image 2"
+                  />
                 </div>
               </div>
 
@@ -480,14 +422,6 @@ export default async function Home() {
                 {txt(contact.description, d.contact.description)}
               </p>
             </Reveal>
-
-            <div className="flex justify-center">
-              <PageImage
-                src={contactImage}
-                alt="Contact — Laminar Dynamics"
-                className="mt-10 max-w-md"
-              />
-            </div>
 
             <Reveal delay={150} className="mt-12">
               {contactFormUrl ? (

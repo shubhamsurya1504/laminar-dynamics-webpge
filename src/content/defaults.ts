@@ -28,14 +28,7 @@ export const DEFAULTS = {
     body: "We are an unmanned vehicle company where Passion complements deep tech expertise and experience.",
     tagline:
       "UAV prototyping, deep technical consulting & service and repairs. Original designs — Real aircraft — Fast.",
-    image: "",
-    cycleSteps: [
-      { label: "Design" },
-      { label: "Simulate" },
-      { label: "Fabricate" },
-      { label: "Fly" },
-      { label: "Optimize" },
-    ],
+    image: "/about-process.png",
   },
 
   work: {
@@ -165,12 +158,8 @@ export const DEFAULTS = {
       { text: "Item 4" },
     ],
     forSaleLabel: "For Sale",
-    forSaleItems: [
-      { title: "Item 1", body: "" },
-      { title: "Item 2", body: "" },
-      { title: "Item 3", body: "" },
-      { title: "Item 4", body: "" },
-    ],
+    forSaleImage1: "",
+    forSaleImage2: "",
   },
 
   contact: {

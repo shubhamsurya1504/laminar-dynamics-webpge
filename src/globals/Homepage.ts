@@ -21,12 +21,32 @@ const image = (label = "Image", name = "image") => ({
   label: `${label} (leave empty to keep the current one)`,
 });
 
+function withWhyUsDefaults(doc: Record<string, unknown>) {
+  const whyUs = (doc.whyUs as Record<string, unknown> | undefined) ?? {};
+  const items = whyUs.items;
+  const links = whyUs.ourWorkLinks;
+
+  doc.whyUs = {
+    label: whyUs.label ?? DEFAULTS.whyUs.label,
+    ourWorkLabel: whyUs.ourWorkLabel ?? DEFAULTS.whyUs.ourWorkLabel,
+    items:
+      Array.isArray(items) && items.length > 0 ? items : DEFAULTS.whyUs.items,
+    ourWorkLinks:
+      Array.isArray(links) && links.length > 0 ? links : DEFAULTS.whyUs.ourWorkLinks,
+  };
+
+  return doc;
+}
+
 export const Homepage: GlobalConfig = {
   slug: "homepage",
   label: "Homepage Content",
   access: { read: () => true },
   admin: {
     description: "Edit every section of the v2 website. Leave images empty to keep defaults.",
+  },
+  hooks: {
+    afterRead: [({ doc }) => withWhyUsDefaults(doc as Record<string, unknown>)],
   },
   fields: [
     {
@@ -76,26 +96,6 @@ export const Homepage: GlobalConfig = {
                 { name: "body", type: "textarea", defaultValue: DEFAULTS.about.body },
                 { name: "tagline", type: "textarea", defaultValue: DEFAULTS.about.tagline },
                 image("About page image"),
-                {
-                  name: "cycleSteps",
-                  type: "array",
-                  label: "Process cycle steps",
-                  defaultValue: DEFAULTS.about.cycleSteps,
-                  fields: [{ name: "label", type: "text" }],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          label: "Work",
-          fields: [
-            {
-              name: "work",
-              type: "group",
-              fields: [
-                { name: "label", type: "text", defaultValue: DEFAULTS.work.label },
-                { name: "message", type: "text", defaultValue: DEFAULTS.work.message },
               ],
             },
           ],
@@ -129,7 +129,6 @@ export const Homepage: GlobalConfig = {
               fields: [
                 { name: "label", type: "text", defaultValue: DEFAULTS.deepTech.label },
                 { name: "heading", type: "text", defaultValue: DEFAULTS.deepTech.heading },
-                image("Deep Tech page image"),
                 {
                   name: "pillars",
                   type: "array",
@@ -153,10 +152,10 @@ export const Homepage: GlobalConfig = {
               type: "group",
               fields: [
                 { name: "label", type: "text", defaultValue: DEFAULTS.whyUs.label },
-                image("Why Us page image"),
                 {
                   name: "items",
                   type: "array",
+                  label: "Items",
                   defaultValue: DEFAULTS.whyUs.items,
                   fields: [
                     { name: "title", type: "text" },
@@ -167,6 +166,7 @@ export const Homepage: GlobalConfig = {
                 {
                   name: "ourWorkLinks",
                   type: "array",
+                  label: "Our work links",
                   defaultValue: DEFAULTS.whyUs.ourWorkLinks,
                   fields: [
                     { name: "label", type: "text" },
@@ -186,23 +186,14 @@ export const Homepage: GlobalConfig = {
               fields: [
                 { name: "label", type: "text", defaultValue: DEFAULTS.testimonials.label },
                 { name: "heading", type: "text", defaultValue: DEFAULTS.testimonials.heading },
-                image("Page image"),
                 textList("items", "Testimonials", DEFAULTS.testimonials.items),
                 {
                   name: "forSaleLabel",
                   type: "text",
                   defaultValue: DEFAULTS.testimonials.forSaleLabel,
                 },
-                {
-                  name: "forSaleItems",
-                  type: "array",
-                  label: "For Sale items",
-                  defaultValue: DEFAULTS.testimonials.forSaleItems,
-                  fields: [
-                    { name: "title", type: "text" },
-                    { name: "body", type: "textarea" },
-                  ],
-                },
+                image("For Sale image 1", "forSaleImage1"),
+                image("For Sale image 2", "forSaleImage2"),
               ],
             },
           ],
@@ -221,7 +212,6 @@ export const Homepage: GlobalConfig = {
                 { name: "email", type: "text", defaultValue: DEFAULTS.contact.email },
                 { name: "webLabel", type: "text", defaultValue: DEFAULTS.contact.webLabel },
                 { name: "webHref", type: "text", defaultValue: DEFAULTS.contact.webHref },
-                image("Contact page image"),
                 { name: "domainsLine", type: "text", defaultValue: DEFAULTS.contact.domainsLine },
                 { name: "footerLine", type: "text", defaultValue: DEFAULTS.contact.footerLine },
               ],
